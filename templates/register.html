@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}User registraton{% endblock %}
+{% block content %}
+<div>
+    <h1>Register to become a part of ATLAS</h1>
+</div>
+<form action="/register" method="post">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">First Name</label>
+    <input type="text" class="form-control" name="first_name" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Last Name</label>
+    <input type="text" class="form-control" name="last_name" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Phone number</label>
+    <input type="text" class="form-control" name="phone_number" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" name="email_address" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div><div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Password</label>
+    <input type="password" class="form-control" name="password" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
