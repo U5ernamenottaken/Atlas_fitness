@@ -10,7 +10,8 @@ def get_users():
     cur.execute("Select * from users")
     users = cur.fetchall()
     return users
-
+see_users=get_users()
+#print(see_users)
 #getting all members
 def get_members():
     cur.execute("select*from members")
@@ -53,7 +54,7 @@ def get_member_by_userid(userid):
     member_by_id = cur.fetchone()
     return member_by_id
 member_info = get_member_by_userid(7)
-print(member_info)
+#print(member_info)
 #fetch member's trainer
 def get_member_trainer(memberid):
     cur.execute("select trainerid, memberid from trainer_assignments where memberid=%s",(memberid,))
@@ -77,7 +78,7 @@ user_pay = get_payments_by_userid(3)
 print(user_pay[1])
 #fetch trainers
 def get_trainers():
-     cur.execute("select *from trainers")
+     cur.execute("select *from trainers join users on trainers.userid=users.user_id")
      trainers=cur.fetchall()
      return trainers
 #fetch today's revenue
@@ -247,3 +248,8 @@ def check_member(userid):
 
 #state_member=check_member(3)
 #print(state_member)
+
+def check_trainer(userid):
+     cur.execute("select*from trainers where userid=%s",(userid,))
+     trainer = cur.fetchone()
+     return trainer

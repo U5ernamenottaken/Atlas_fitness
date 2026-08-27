@@ -1,5 +1,5 @@
 from flask import Flask,redirect,render_template,request,url_for,flash,session
-from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member
+from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member,get_members,get_users,insert_trainer,check_trainer,get_trainers
 from flask_bcrypt import Bcrypt
 atlas=Flask(__name__)
 bcrypt = Bcrypt(atlas)
@@ -14,12 +14,11 @@ def home():
 def dashboard():
   user_id = session['user_id']
   member_info = get_member_by_userid(user_id)
+  users = get_users()
 
-  return render_template('dashboard.html',member_info=member_info)
+  return render_template('dashboard.html',member_info=member_info,users=users)
 
-@atlas.route("/trainers")
-def trainers():
-   return render_template('trainers.html')
+
 
 @atlas.route("/register",methods=['GET','POST'])
 def register():
@@ -55,7 +54,7 @@ def login():
             session['email']=email
             session['user_id']=user_exist[0]
             session['first_name'] = user_exist[1]
-            flash(f'Login successful,{user_exist[1]} ','success')
+            flash(f'Login successful,welcome {user_exist[1]} ','success')
             return redirect(url_for('dashboard'))
          else:
             flash('Incorrect details','danger')       
@@ -135,7 +134,26 @@ def edit_profile():
       
       return redirect(url_for('dashboard'))
 
+@atlas.route('/create_trainers',methods = ['GET','POST'])
+def make_trainer():
+   if request.method == 'POST':
+      user_id = session['user_id']
+      specialization = request.form['specialization']
+      bio = request.form['bio']
+      experience = request.form['experience']
 
+      user_check = check_trainer(user_id)
+      if not user_check:
+         trainer_details = (user_id,specialization,bio,experience)
+         insert_trainer(trainer_details)
+
+
+
+
+@atlas.route("/trainers")
+def trainers():
+   trainers = get_trainers()
+   return render_template('trainers.html',trainers=trainers)
 
 
 @atlas.route("/test-id")
