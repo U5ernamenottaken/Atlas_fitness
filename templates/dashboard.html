@@ -104,7 +104,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profileModal">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profileModal" >
     Update member profile
 </button>
 
@@ -163,8 +163,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        
             {% for users in users %}
+        <tr>
             <th scope="row">{{users[1]}}</th>
             <td>{{users[2]}}</td>
             <td>{{users[3]}}</td>
@@ -172,12 +173,12 @@
             <td>{{users[6]}}</td>
             <td>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profileModal">
-                    Complete member profile
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trainerModal" data-userid="{{users[0]}}">
+                    Make Trainer
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -187,19 +188,24 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="/create_trainer" method="post">
+                                <form action="/create_trainers" method="post">
+                        
+                                    <div>
+                                    <input type="number" name="userid" value="{{users[0]}}" id="userid">   
+                                    </div>
+                                
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Specialization</label>
-                                        <input type="text" class="form-control" name="specialization" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp">
+                                        <input type="text" class="form-control" name="specialization"
+                                            id="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Bio</label>
-                                        <input type="text" class="form-control" name="bio"
-                                            id="exampleInputPassword1">
+                                        <input type="text" class="form-control" name="bio" id="exampleInputPassword1">
                                     </div>
-                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Years of experience</label>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Years of
+                                            experience</label>
                                         <input type="number" class="form-control" name="experience"
                                             id="exampleInputPassword1">
                                     </div>

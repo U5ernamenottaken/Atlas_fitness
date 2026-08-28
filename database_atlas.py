@@ -75,12 +75,14 @@ def get_payments_by_userid(userid):
     payments_by_userid = cur.fetchone()
     return payments_by_userid
 user_pay = get_payments_by_userid(3)
-print(user_pay[1])
+#print(user_pay[1])
 #fetch trainers
 def get_trainers():
      cur.execute("select *from trainers join users on trainers.userid=users.user_id")
      trainers=cur.fetchall()
      return trainers
+trainer_lst = get_trainers()
+#print(trainer_lst)
 #fetch today's revenue
 def get_revenue_today():
     cur.execute("select sum(amount) from payments where created_at=current_date")
@@ -253,3 +255,7 @@ def check_trainer(userid):
      cur.execute("select*from trainers where userid=%s",(userid,))
      trainer = cur.fetchone()
      return trainer
+
+chck=check_trainer(10)
+print(chck)
+

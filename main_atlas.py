@@ -137,15 +137,21 @@ def edit_profile():
 @atlas.route('/create_trainers',methods = ['GET','POST'])
 def make_trainer():
    if request.method == 'POST':
-      user_id = session['user_id']
+      user_id = request.form['userid']
       specialization = request.form['specialization']
       bio = request.form['bio']
       experience = request.form['experience']
+      print(request.form)
 
-      user_check = check_trainer(user_id)
-      if not user_check:
+      trainer_check = check_trainer(user_id)
+      if not trainer_check:
          trainer_details = (user_id,specialization,bio,experience)
          insert_trainer(trainer_details)
+         flash('Trainer added','success')
+         return redirect(url_for('trainers'))
+      else:
+         flash('This user is already a trainer','danger')
+         
 
 
 

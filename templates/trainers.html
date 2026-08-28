@@ -7,19 +7,27 @@
 <table class="table" id="trainer_table">
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Specialization</th>
+      <th scope="col">Bio</th>
+      <th scope="col">Years of experience</th>
+      <th scope="col">Email address</th>
+      <th scope="col">Phone number</th>
     </tr>
   </thead>
   <tbody>
+    {% for trainer in trainers %}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+      <td>{{trainer[6]}}</td>
+      <td >{{trainer[7]}}</td>
+      <td>{{trainer[2]}}</td>
+      <td >{{trainer[3]}}</td>
+      <td >{{trainer[4]}}</td>
+      <td>{{trainer[8]}}</td>
+      <td >{{trainer[10]}}</td>
     </tr>
+    {% endfor %}
     
   </tbody>
 </table>
