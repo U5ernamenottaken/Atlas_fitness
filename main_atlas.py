@@ -1,5 +1,5 @@
 from flask import Flask,redirect,render_template,request,url_for,flash,session
-from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member,get_members,get_users,insert_trainer,check_trainer,get_trainers
+from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member,get_members,get_users,insert_trainer,check_trainer,get_trainers,assign_trainer,check_member_trainer,check_assigned_members,get_trainer_info
 from flask_bcrypt import Bcrypt
 atlas=Flask(__name__)
 bcrypt = Bcrypt(atlas)
@@ -13,10 +13,13 @@ def home():
 @atlas.route("/dashboard")
 def dashboard():
   user_id = session['user_id']
-  member_info = get_member_by_userid(user_id)
+  memberid=get_member_by_userid(user_id)
+  member_info = check_member_trainer(memberid[0])
   users = get_users()
-
-  return render_template('dashboard.html',member_info=member_info,users=users)
+  trainerid=member_info[8]
+  trainer_info = get_trainer_info(trainerid)
+  print(trainer_info)
+  return render_template('dashboard.html',member_info=member_info,users=users,trainer_info=trainer_info)
 
 
 
@@ -109,7 +112,7 @@ def member_profile():
         member_details = (userid,height,weight,gender,dob,goal)
         insert_member(member_details)
         flash("Member profile created successfully",'success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('trainers'))
      else:
         flash("Member already exists",'danger')
 
@@ -154,12 +157,40 @@ def make_trainer():
          
 
 
-
-
 @atlas.route("/trainers")
 def trainers():
    trainers = get_trainers()
    return render_template('trainers.html',trainers=trainers)
+
+
+
+
+@atlas.route('/assign_trainer', methods = ['POST','GET'])
+def choose_trainer():
+   if request.method == 'POST':
+      userid = session['user_id']
+      trainerid = request.form['trainerid']
+      is_member = check_member(userid) 
+     
+
+      if is_member:
+         has_trainer= check_member_trainer(is_member[0])
+         if not has_trainer: 
+            client_count = check_assigned_members(trainerid)
+            if client_count<5:
+               assignment_details = (trainerid,is_member[0])
+               assign_trainer(assignment_details)
+               flash('Trainer assigned successfully','success')
+               return redirect(url_for('dashboard'))
+            else:
+               flash('This trainer is fully occupied please pick another','danger')
+         else:
+            flash('You already have a trainer','danger')
+            return redirect(url_for('dashboard'))
+      else:
+         flash('Sign up for a membership before getting a trainer','danger')
+
+
 
 
 @atlas.route("/test-id")

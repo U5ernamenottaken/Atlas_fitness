@@ -257,5 +257,25 @@ def check_trainer(userid):
      return trainer
 
 chck=check_trainer(10)
-print(chck)
+#print(chck)
+
+def check_member_trainer(memberid):
+     cur.execute("select*from members inner join trainer_assignments on members.memberid=trainer_assignments.memberid where members.memberid=%s",(memberid,))
+     member_trainer= cur.fetchone()
+     return member_trainer
+
+def check_assigned_members(trainerid):
+     cur.execute("select count(*) from trainer_assignments where trainerid=%s",(trainerid,))
+     client_count = cur.fetchall()
+     return client_count
+
+def get_trainer_info(trainerid):
+     cur.execute("select*from trainers join users on trainers.userid=users.user_id where trainerid=%s",(trainerid,))
+     trainer_info=cur.fetchone()
+     return trainer_info
+
+
+
+
+
 

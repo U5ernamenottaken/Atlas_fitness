@@ -101,6 +101,7 @@
 <p>Gender: {{member_info[4]}}</p>
 <p>Date of birth: {{member_info[5]}}</p>
 <p>Goal: {{member_info[6]}}</p>
+<p>Trainer name: {{trainer_info[6]}} {{trainer_info[7]}} </p>
 
 
 <!-- Button trigger modal -->
@@ -164,22 +165,24 @@
     </thead>
     <tbody>
         
-            {% for users in users %}
+            {% for user in users %}
         <tr>
-            <th scope="row">{{users[1]}}</th>
-            <td>{{users[2]}}</td>
-            <td>{{users[3]}}</td>
-            <td>{{users[5]}}</td>
-            <td>{{users[6]}}</td>
+            <th scope="row">{{user[1]}}</th>
+            <td>{{user[2]}}</td>
+            <td>{{user[3]}}</td>
+            <td>{{user[5]}}</td>
+            <td>{{user[6]}}</td>
+            
             <td>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trainerModal" data-userid="{{users[0]}}">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trainerModal" data-userid="{{ user[0] }}">
                     Make Trainer
                 </button>
+                {% endfor %}
 
                 <!-- Modal -->
                 <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                    >
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -187,11 +190,12 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
+                            
                             <div class="modal-body">
                                 <form action="/create_trainers" method="post">
                         
                                     <div>
-                                    <input type="number" name="userid" value="{{users[0]}}" id="userid">   
+                                    <input type="number" name="userid" id="userid" readonly>   
                                     </div>
                                 
                                     <div class="mb-3">
@@ -216,10 +220,21 @@
                     </div>
                 </div>
             </td>
+            
         </tr>
-        {% endfor %}
+        
     </tbody>
 </table>
+
+ <script>
+    const trainerModal = document.getElementById('trainerModal');
+    trainerModal.addEventListener('show.bs.modal',function(event){
+      const button = event.relatedTarget;
+      const userid = button.getAttribute('data-userid');
+      document.getElementById('userid').value = userid
+    });
+  </script>
+
 
 
 {% endblock %}
