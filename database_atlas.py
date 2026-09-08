@@ -260,7 +260,7 @@ chck=check_trainer(10)
 #print(chck)
 
 def check_member_trainer(memberid):
-     cur.execute("select*from members inner join trainer_assignments on members.memberid=trainer_assignments.memberid where members.memberid=%s",(memberid,))
+     cur.execute("select*from members left join trainer_assignments on members.memberid=trainer_assignments.memberid where members.memberid=%s",(memberid,))
      member_trainer= cur.fetchone()
      return member_trainer
 

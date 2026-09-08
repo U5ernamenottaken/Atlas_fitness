@@ -45,7 +45,7 @@
     </div>
 </div><br>
 
-
+{% if memberid %}
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profileModal">
     Complete member profile
@@ -64,7 +64,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Height</label>
                         <input type="number" class="form-control" name="height" id="exampleInputEmail1"
-                            aria-describedby="emailHelp">
+                           aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Weight</label>
@@ -96,14 +96,28 @@
         </div>
     </div>
 </div>
-<p>Height: {{member_info[2]}}</p>
-<p>Weight: {{member_info[3]}}</p>
-<p>Gender: {{member_info[4]}}</p>
-<p>Date of birth: {{member_info[5]}}</p>
-<p>Goal: {{member_info[6]}}</p>
-<p>Trainer name: {{trainer_info[6]}} {{trainer_info[7]}} </p>
+{% endif %}
+
+{% if member_info %}
+    <p>Height: {{member_info[2]}}</p>
+    <p>Weight: {{member_info[3]}}</p>
+    <p>Gender: {{member_info[4]}}</p>
+    <p>Date of birth: {{member_info[5]}}</p>
+    <p>Goal: {{member_info[6]}}</p>
 
 
+    {% if not member_info[8] %}
+    <p>You don't have a trainer</p>
+    {% else %}
+    <p>Trainer name: {{trainer_info[6]}} {{trainer_info[7]}}</p>
+    {% endif %}
+{% else %}
+
+<p>No member info captured</p>
+    
+{% endif %}
+
+{% if memberid %}
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profileModal" >
     Update member profile
@@ -148,7 +162,9 @@
             </div>
         </div>
     </div>
+{% endif %}
 </div>
+
 
 <h1>Users</h1>
 <table class="table" id="user_table">
@@ -165,8 +181,9 @@
     </thead>
     <tbody>
         
-            {% for user in users %}
+           {% for user in users %} 
         <tr>
+            
             <th scope="row">{{user[1]}}</th>
             <td>{{user[2]}}</td>
             <td>{{user[3]}}</td>

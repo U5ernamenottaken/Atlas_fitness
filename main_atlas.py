@@ -10,18 +10,6 @@ def home():
     return render_template('home.html')
 
 
-@atlas.route("/dashboard")
-def dashboard():
-  user_id = session['user_id']
-  memberid=get_member_by_userid(user_id)
-  member_info = check_member_trainer(memberid[0])
-  users = get_users()
-  trainerid=member_info[8]
-  trainer_info = get_trainer_info(trainerid)
-  print(trainer_info)
-  return render_template('dashboard.html',member_info=member_info,users=users,trainer_info=trainer_info)
-
-
 
 @atlas.route("/register",methods=['GET','POST'])
 def register():
@@ -191,7 +179,41 @@ def choose_trainer():
          flash('Sign up for a membership before getting a trainer','danger')
 
 
+@atlas.route('/change_trainer',methods=['POST','GET'])
+def change_trainer():
+   if request.method == 'POST':
+      trainerid = request.form['trainerid']
+      user_id = session['user_id']
+      memberid=get_member_by_userid(user_id)
+      member_info = check_member_trainer(memberid[0])
+      trainerid=member_info[8]
+      trainer_info = get_trainer_info(trainerid)
 
+      
+
+      trainer_details = (trainerid,user_id)
+      assign_trainer(trainer_details)
+
+
+@atlas.route("/dashboard")
+def dashboard():
+  user_id = session['user_id']
+  member_info = None
+  users=get_users()
+  trainer_info=None
+  memberid=None
+  memberid=get_member_by_userid(user_id)
+  if memberid!=None:
+   member_info = check_member_trainer(memberid[0])
+   if member_info:
+      trainerid=member_info[8]
+      if trainerid!=None:
+         trainer_info = get_trainer_info(trainerid)
+
+  return render_template('dashboard.html',member_info=member_info,users=users,
+                         trainer_info=trainer_info,memberid=memberid)
+
+   
 
 @atlas.route("/test-id")
 def test_id():
