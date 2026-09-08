@@ -64,7 +64,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Height</label>
                         <input type="number" class="form-control" name="height" id="exampleInputEmail1"
-                           aria-describedby="emailHelp">
+                            aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Weight</label>
@@ -99,27 +99,27 @@
 {% endif %}
 
 {% if member_info %}
-    <p>Height: {{member_info[2]}}</p>
-    <p>Weight: {{member_info[3]}}</p>
-    <p>Gender: {{member_info[4]}}</p>
-    <p>Date of birth: {{member_info[5]}}</p>
-    <p>Goal: {{member_info[6]}}</p>
+<p>Height: {{member_info[2]}}</p>
+<p>Weight: {{member_info[3]}}</p>
+<p>Gender: {{member_info[4]}}</p>
+<p>Date of birth: {{member_info[5]}}</p>
+<p>Goal: {{member_info[6]}}</p>
 
 
-    {% if not member_info[8] %}
-    <p>You don't have a trainer</p>
-    {% else %}
-    <p>Trainer name: {{trainer_info[6]}} {{trainer_info[7]}}</p>
-    {% endif %}
+{% if not member_info[8] %}
+<p>You don't have a trainer</p>
+{% else %}
+<p>Trainer name: {{trainer_info[6]}} {{trainer_info[7]}}</p>
+{% endif %}
 {% else %}
 
 <p>No member info captured</p>
-    
+
 {% endif %}
 
 {% if memberid %}
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profileModal" >
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profileModal">
     Update member profile
 </button>
 
@@ -162,8 +162,57 @@
             </div>
         </div>
     </div>
-{% endif %}
+    {% endif %}
 </div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Switch Trainer
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    {% for trainer in trainers %}
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        
+                        <div class="card h-100">
+
+                            <div class="card-body d-flex flex-column">
+
+                                <h5 class="card-title">{{trainer[6]}} {{trainer[7]}}</h5>
+                                <p class="card-text">{{trainer[2]}}</p>
+                                <p class="card-text">{{trainer[3]}}</p>
+                                <p class="card-text">{{trainer[4]}}</p>
+                                <input type="hidden" name="" id="" value="{{trainer[0]}}">
+
+                                <form action="/assign_trainer" method="post" id="assignmentform"
+                                    data-trainerid="{{trainer[0]}}">
+                                    <button type="submit" name="trainerid" value="{{trainer[0]}}">Choose</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
 
 
 <h1>Users</h1>
@@ -180,26 +229,26 @@
         </tr>
     </thead>
     <tbody>
-        
-           {% for user in users %} 
+
+        {% for user in users %}
         <tr>
-            
+
             <th scope="row">{{user[1]}}</th>
             <td>{{user[2]}}</td>
             <td>{{user[3]}}</td>
             <td>{{user[5]}}</td>
             <td>{{user[6]}}</td>
-            
+
             <td>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trainerModal" data-userid="{{ user[0] }}">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trainerModal"
+                    data-userid="{{ user[0] }}">
                     Make Trainer
                 </button>
-                {% endfor %}
+
 
                 <!-- Modal -->
-                <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    >
+                <div class="modal fade" id="trainerModal" tabindex="-1" aria-labelledby="exampleModalLabel">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -207,14 +256,14 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            
+
                             <div class="modal-body">
                                 <form action="/create_trainers" method="post">
-                        
+
                                     <div>
-                                    <input type="number" name="userid" id="userid" readonly>   
+                                        <input type="number" name="userid" id="userid" readonly>
                                     </div>
-                                
+
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Specialization</label>
                                         <input type="text" class="form-control" name="specialization"
@@ -237,20 +286,22 @@
                     </div>
                 </div>
             </td>
-            
+
         </tr>
-        
+        {% endfor %}
+
     </tbody>
 </table>
 
- <script>
+<script>
     const trainerModal = document.getElementById('trainerModal');
-    trainerModal.addEventListener('show.bs.modal',function(event){
-      const button = event.relatedTarget;
-      const userid = button.getAttribute('data-userid');
-      document.getElementById('userid').value = userid
+    trainerModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const userid = button.getAttribute('data-userid');
+        document.getElementById('userid').value = userid
     });
-  </script>
+</script>
+
 
 
 

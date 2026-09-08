@@ -197,6 +197,7 @@ def change_trainer():
 
 @atlas.route("/dashboard")
 def dashboard():
+  trainers=get_trainers()
   user_id = session['user_id']
   member_info = None
   users=get_users()
@@ -211,9 +212,23 @@ def dashboard():
          trainer_info = get_trainer_info(trainerid)
 
   return render_template('dashboard.html',member_info=member_info,users=users,
-                         trainer_info=trainer_info,memberid=memberid)
+                         trainer_info=trainer_info,memberid=memberid,trainers=trainers)
 
    
+
+@atlas.route("/switch_trainer")
+def switch_trainer():
+   
+   user_id = session[user_id]
+   memberid = get_member_by_userid(user_id)
+   current_trainer = check_member_trainer(memberid[0])
+   trainer_id = current_trainer[0]
+   assignment_details = (trainer_id,memberid)
+   assign_trainer(assignment_details)
+   pass
+
+
+
 
 @atlas.route("/test-id")
 def test_id():
