@@ -260,17 +260,19 @@ chck=check_trainer(10)
 #print(chck)
 
 def check_member_trainer(memberid):
-     cur.execute("select*from members left join trainer_assignments on members.memberid=trainer_assignments.memberid where members.memberid=%s",(memberid,))
+     cur.execute("""select*from members left join trainer_assignments on members.memberid=trainer_assignments.memberid 
+     where members.memberid=%s 
+     order by assignmentid desc limit 1""",(memberid,))
      member_trainer= cur.fetchone()
      return member_trainer
 
 def check_assigned_members(trainerid):
-     cur.execute("select count(*) from trainer_assignments where trainerid=%s",(trainerid,))
+     cur.execute("select count(*) from trainer_assignments where trainer_id=%s",(trainerid,))
      client_count = cur.fetchall()
      return client_count
 
 def get_trainer_info(trainerid):
-     cur.execute("select*from trainers join users on trainers.userid=users.user_id where trainerid=%s",(trainerid,))
+     cur.execute("select*from trainers join users on trainers.userid=users.user_id join trainer_assignments on trainers.trainerid = trainer_assignments.trainer_id where trainerid=%s",(trainerid,))
      trainer_info=cur.fetchone()
      return trainer_info
 

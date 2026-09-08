@@ -163,9 +163,9 @@ def choose_trainer():
 
       if is_member:
          has_trainer= check_member_trainer(is_member[0])
-         if not has_trainer: 
+         if not has_trainer[9]: 
             client_count = check_assigned_members(trainerid)
-            if client_count<5:
+            if len(client_count)<5:
                assignment_details = (trainerid,is_member[0])
                assign_trainer(assignment_details)
                flash('Trainer assigned successfully','success')
@@ -178,21 +178,6 @@ def choose_trainer():
       else:
          flash('Sign up for a membership before getting a trainer','danger')
 
-
-@atlas.route('/change_trainer',methods=['POST','GET'])
-def change_trainer():
-   if request.method == 'POST':
-      trainerid = request.form['trainerid']
-      user_id = session['user_id']
-      memberid=get_member_by_userid(user_id)
-      member_info = check_member_trainer(memberid[0])
-      trainerid=member_info[8]
-      trainer_info = get_trainer_info(trainerid)
-
-      
-
-      trainer_details = (trainerid,user_id)
-      assign_trainer(trainer_details)
 
 
 @atlas.route("/dashboard")
@@ -216,16 +201,25 @@ def dashboard():
 
    
 
-@atlas.route("/switch_trainer")
+@atlas.route("/switch_trainer",methods = ['GET','POST'])
 def switch_trainer():
    
-   user_id = session[user_id]
+   user_id = session['user_id']
    memberid = get_member_by_userid(user_id)
    current_trainer = check_member_trainer(memberid[0])
-   trainer_id = current_trainer[0]
-   assignment_details = (trainer_id,memberid)
-   assign_trainer(assignment_details)
-   pass
+   current_trainer_id = current_trainer[8]
+   if request.method == 'POST':
+      new_trainer_id = request.form['new_trainer_id']
+      if current_trainer_id!=new_trainer_id:
+         new_assignment = (new_trainer_id,memberid[0])
+         assign_trainer(new_assignment)
+         flash('Trainer updated succesfully','success')
+         return redirect(url_for('dashboard'))
+      else:
+         flash('You are already assigned this trainer')
+         return redirect(url_for('dashboard'))
+
+   
 
 
 

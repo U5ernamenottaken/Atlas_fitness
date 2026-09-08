@@ -190,11 +190,11 @@
                                 <p class="card-text">{{trainer[2]}}</p>
                                 <p class="card-text">{{trainer[3]}}</p>
                                 <p class="card-text">{{trainer[4]}}</p>
-                                <input type="hidden" name="" id="" value="{{trainer[0]}}">
+                                
 
-                                <form action="/assign_trainer" method="post" id="assignmentform"
-                                    data-trainerid="{{trainer[0]}}">
-                                    <button type="submit" name="trainerid" value="{{trainer[0]}}">Choose</button>
+                                <form action="/switch_trainer" method="post">
+                                    <input type="hidden" name="new_trainer_id" value="{{trainer[0]}}">
+                                    <button type="submit">Choose</button>
                                 </form>
 
                             </div>
