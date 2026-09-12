@@ -276,7 +276,26 @@ def get_trainer_info(trainerid):
      trainer_info=cur.fetchone()
      return trainer_info
 
+def get_trainer_clients(trainer_id):
+     cur.execute("""
+     select*from trainer_assignments 
+     left join members on members.memberid=trainer_assignments.memberid 
+     join users on users.user_id=members.userid
+     where trainer_id=%s 
+     row nmbe()(
+     partion by memberid
+     order by assignment_date desc 
+     )
+                     """,(trainer_id))
+     trainer_clients = cur.fetchall()
+     return trainer_clients
 
+def get_trainer_by_userid(userid):
+     cur.execute("""
+     select trainerid from trainers where userid=%s
+               """,(userid,))
+     trainerid= cur.fetchone()
+     return trainerid
 
 
 

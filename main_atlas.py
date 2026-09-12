@@ -1,5 +1,5 @@
 from flask import Flask,redirect,render_template,request,url_for,flash,session
-from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member,get_members,get_users,insert_trainer,check_trainer,get_trainers,assign_trainer,check_member_trainer,check_assigned_members,get_trainer_info
+from database_atlas import check_user_email,insert_user,get_payments_by_userid,check_user_membership,insert_payment,insert_membership,check_member,insert_member,get_member_by_userid,update_member,get_members,get_users,insert_trainer,check_trainer,get_trainers,assign_trainer,check_member_trainer,check_assigned_members,get_trainer_info,get_trainer_clients,get_trainer_by_userid
 from flask_bcrypt import Bcrypt
 atlas=Flask(__name__)
 bcrypt = Bcrypt(atlas)
@@ -183,7 +183,10 @@ def choose_trainer():
 @atlas.route("/dashboard")
 def dashboard():
   trainers=get_trainers()
+
+
   user_id = session['user_id']
+  clients=get_trainer_by_userid(user_id)
   member_info = None
   users=get_users()
   trainer_info=None
@@ -197,7 +200,7 @@ def dashboard():
          trainer_info = get_trainer_info(trainerid)
 
   return render_template('dashboard.html',member_info=member_info,users=users,
-                         trainer_info=trainer_info,memberid=memberid,trainers=trainers)
+                         trainer_info=trainer_info,memberid=memberid,trainers=trainers,clients=clients)
 
    
 
