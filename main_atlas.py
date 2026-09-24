@@ -182,11 +182,10 @@ def choose_trainer():
 
 @atlas.route("/dashboard")
 def dashboard():
-  trainers=get_trainers()
-
 
   user_id = session['user_id']
-  clients=get_trainer_by_userid(user_id)
+  trainers=get_trainer_by_userid(user_id)
+  clients=get_trainer_clients(trainers)
   member_info = None
   users=get_users()
   trainer_info=None
@@ -200,7 +199,7 @@ def dashboard():
          trainer_info = get_trainer_info(trainerid)
 
   return render_template('dashboard.html',member_info=member_info,users=users,
-                         trainer_info=trainer_info,memberid=memberid,trainers=trainers,clients=clients)
+                         trainer_info=trainer_info,memberid=memberid,clients=clients)
 
    
 

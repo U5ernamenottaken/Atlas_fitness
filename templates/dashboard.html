@@ -292,29 +292,32 @@
 
     </tbody>
 </table>
-
+<h1>My clients</h1>
 <table class="table" id="trainer_clients_table">
   <thead>
     <tr>
       <th scope="col">First name</th>
       <th scope="col">Last name</th>
-      <th scope="col">Specialization</th>
-      <th scope="col">Bio</th>
-      <th scope="col">Years of experience</th>
-      <th scope="col">Email address</th>
+      <th scope="col">email</th>
       <th scope="col">Phone number</th>
+      <th scope="col">height</th>
+      <th scope="col">weight</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Goal</th>
     </tr>
   </thead>
   <tbody>
-    {% for trainer in trainers %}
+    {% for client in clients %}
     <tr>
-      <td>{{trainer[6]}}</td>
-      <td>{{trainer[7]}}</td>
-      <td>{{trainer[2]}}</td>
-      <td>{{trainer[3]}}</td>
-      <td>{{trainer[4]}}</td>
-      <td>{{trainer[8]}}</td>
-      <td>{{trainer[10]}}</td>
+      <td>{{client[13]}}</td>
+      <td>{{client[14]}}</td>
+      <td>{{client[15]}}</td>
+      <td>{{client[17]}}</td>
+      <td>{{client[7]}}</td>
+      <td>{{client[8]}}</td>
+      <td>{{client[9]}}</td>
+      <td>{{client[11]}}</td>
+
     </tr>
     {% endfor %}
 

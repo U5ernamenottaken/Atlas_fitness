@@ -278,15 +278,17 @@ def get_trainer_info(trainerid):
 
 def get_trainer_clients(trainer_id):
      cur.execute("""
-     select*from trainer_assignments 
-     left join members on members.memberid=trainer_assignments.memberid 
+      select* from
+     (select*,  row_number()over(
+               partition by memberid
+               order by assignment_date desc 
+               )as rn 
+               from trainer_assignments)
+               as assignments 
+     left join members on members.memberid=assignments.memberid 
      join users on users.user_id=members.userid
      where trainer_id=%s 
-     row nmbe()(
-     partion by memberid
-     order by assignment_date desc 
-     )
-                     """,(trainer_id))
+                     """,(trainer_id,))
      trainer_clients = cur.fetchall()
      return trainer_clients
 
